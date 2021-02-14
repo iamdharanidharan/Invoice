@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Invoice Generator</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container mb-3">
+        <div class="alert alert-dismissible fade show" id='myalert' style="display: none;" role="alert">
+            <span id="myalert-message"></span>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="jumbotron">
+            <h1 class="display-4">Invoice</h1>
+            <p class="lead">Invoice with User wallet Account!!!</p>
+            
+          </div>
+        <div class="row">
+            <div class="offset-lg-2 offset-xl-2 offset-md-1 col-lg-8 col-xl-8 col-md-10 col">
+                
+                    <fieldset class="border p-2">
+                        <legend class="w-auto">Add Customer</legend>
+                        <div class="form-row align-items-center">
+                            <div class="col-auto">
+                                <label class="sr-only" for="customerName">Name</label>
+                                <input type="text" class="form-control mb-2" id="customerName"
+                                    placeholder="Customer Name" />
+                            </div>
+                            <div class="col-auto">
+                                <label class="sr-only" for="discount">Username</label>
+                                <div class="input-group mb-2">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">%</div>
+                                    </div>
+                                    <input type="number" class="form-control" id="discount" placeholder="Discount" />
+                                </div>
+                            </div>
+                            <div class="col-auto ml-auto">
+                                <button type="submit" class="btn btn-primary mb-2" id="addCustomer-btn">
+                                    + ADD
+                                </button>
+                            </div>
+                        </div>
+                    </fieldset>
+                
+            </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="offset-lg-2 offset-xl-2 offset-md-1 col-lg-8 col-xl-8 col-md-10 col">
+                
+                    <fieldset class="border p-2">
+                        <legend class="w-auto">Wallet Account</legend>
+                        <div class="form-row align-items-center">
+                            <div class="col-auto">
+                                <label class="sr-only mr-sm-2 " for="walletCustomerList">Customer</label>
+                                <select class="form-control mr-sm-2" id="walletCustomerList">
+                                    <option selected>Select...</option>
+                                </select>
+                            </div>
+                            <div class="col-auto">
+                                <label class="sr-only" for="walletAmount">Amount</label>
+                                <div class="input-group mb-2">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">$</div>
+                                    </div>
+                                    <input type="number" class="form-control" id="walletAmount"
+                                        placeholder="Amount">
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="generateInvoice">
+                                    <label class="form-check-label" for="autoSizingCheck">
+                                        Generate Invoice
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-auto ml-auto">
+                                <button type="submit" class="btn btn-success mb-2" id="deposit-btn">Deposit</button>
+                                <button type="submit" class="btn btn-danger mb-2" id="withdraw-btn">Withdraw</button>
+                            </div>
+                            
+                        </div>
+
+                    </fieldset>
+               
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="offset-lg-2 offset-xl-2 offset-md-1 col-lg-8 col-xl-8 col-md-10 col">
+                
+                    <fieldset class="border p-2">
+                        <legend class="w-auto">Purchase</legend>
+                        <div class="form-row align-items-center">
+                            <div class="col-auto">
+                                <label class="sr-only mr-sm-2 " for="purchaseCustomerList">Customer</label>
+                                <select class="form-control mr-sm-2" id="purchaseCustomerList">
+                                    <option selected>Select...</option>
+                                </select>
+                            </div>
+                            <div class="col-auto">
+                                <label class="sr-only" for="purchaseAmount">Purchase Amount</label>
+                                <div class="input-group mb-2">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">$</div>
+                                    </div>
+                                    <input type="number" class="form-control" id="purchaseAmount"
+                                        placeholder="Amount">
+                                </div>
+                            </div>
+
+                            <div class="col-auto ml-auto">
+                                <button type="button" class="btn btn-success mb-2" id='displayModal-btn' data-toggle="modal" data-target="#staticBackdrop">Buy</button>
+                            </div>
+                        </div>
+                    </fieldset>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col" id='invoiceTable'></div>
+        </div>
+    </div>
+    <!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Amount after Discount</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" id='purchaseConfirm'>
+            Enter valid data
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" id="purchase-btn" id='purchaseButton'>Ok</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  
+  <script src="public/script.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+
+</body>
+
+</html>
